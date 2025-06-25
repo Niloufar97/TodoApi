@@ -8,12 +8,12 @@ namespace Todo.Core.Domain
 {
     public class User : BaseEntity
     {
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        string Email { get; set; }
-        string Username { get; set; }
-        string Password { get; set; }  
+        public required string FirstName { get; set; }
+        public required string LastName { get; set; }
+        public required string Email { get; set; }
+        public required string Username { get; set; }
+        public required string Password { get; set; }  
         
-        ICollection<Todo> Todos { get; set; }
+        public ICollection<TodoItem>? Todos { get; set; }
     }
 }
