@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using Todo.Core.Domain;
 
 namespace Todo.Data.Repository
@@ -38,11 +34,9 @@ namespace Todo.Data.Repository
                 //throw exception or log that the item was not found
             }
         }
-        public IEnumerable<TodoItem> GetAll(int userId)
+        public async Task<IEnumerable<TodoItem>> GetAll()
         {
-            return _context.Todos
-                .Where(t=> t.UserId == userId)
-                .ToList();
+            return await _context.Todos.ToListAsync(); ;
         }
     }
 }
