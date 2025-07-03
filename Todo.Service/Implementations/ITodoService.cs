@@ -9,6 +9,7 @@ namespace Todo.Service.Implementations
 {
     public interface ITodoService
     {
+        Task AddTodo(TodoItemRequestDto todoDto);
         Task<IEnumerable<TodoItemListDto>> TodoItemList();
     }
 }

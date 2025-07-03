@@ -1,4 +1,5 @@
-﻿using Todo.Data.Repository;
+﻿using Todo.Core.Domain;
+using Todo.Data.Repository;
 using Todo.Service.Dto;
 
 namespace Todo.Service.Implementations
@@ -22,5 +23,17 @@ namespace Todo.Service.Implementations
             });
             return todosToReturn;
         }
-    }
+
+        public async Task AddTodo(TodoItemRequestDto todoDto)
+        {
+            var newTodo = new TodoItem
+            {
+                Title = todoDto.Title,
+                Description = todoDto.Description,
+                Status = todoDto.Status,
+                UserId = todoDto.UserId
+            };
+            await _todoRepository.InsertAsync(newTodo);
+        }
+    }  
 }

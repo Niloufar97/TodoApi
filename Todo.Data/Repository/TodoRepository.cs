@@ -10,10 +10,10 @@ namespace Todo.Data.Repository
         {
             this._context = context;
         }
-        public void Insert(TodoItem todo)
+        public async Task InsertAsync(TodoItem todo)
         {
-            _context.Todos.Add(todo);
-            _context.SaveChanges();
+            await _context.Todos.AddAsync(todo);
+            await _context.SaveChangesAsync();
         }
 
         public void Update(TodoItem todo)
@@ -37,6 +37,16 @@ namespace Todo.Data.Repository
         public async Task<IEnumerable<TodoItem>> GetAll()
         {
             return await _context.Todos.ToListAsync(); ;
+        }
+
+        public async Task<TodoItem> GetTodoById(int todoId)
+        {
+            var todo = await _context.Todos.FirstOrDefaultAsync(t => t.Id == todoId);
+            if(todo == null)
+            {
+                throw new KeyNotFoundException($"Todo with ID {todoId} not found.");
+            }
+            return todo;
         }
     }
 }
