@@ -30,5 +30,12 @@ namespace TodoApi.Controllers
             return Created();
         }
 
+        [HttpDelete("{todoId}")]
+        public async Task<IActionResult> DeleteTood(int todoId)
+        {
+            await _todoService.DeleteTodo(todoId);
+            return NoContent();
+        }
+
     }
 }

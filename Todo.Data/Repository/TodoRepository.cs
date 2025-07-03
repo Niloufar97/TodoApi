@@ -21,18 +21,15 @@ namespace Todo.Data.Repository
             _context.Todos.Update(todo);
             _context.SaveChanges();
         }
-        public void Delete(int todoId)
+        public async Task Delete(int todoId)
         {
-            var todo = _context.Todos.Find(todoId);
-            if (todo != null)
+            var todo = await _context.Todos.FindAsync(todoId);
+            if (todo == null)
             {
-                _context.Todos.Remove(todo);
-                _context.SaveChanges();
+                throw new KeyNotFoundException($"Todo with ID {todoId} not found.");
             }
-            else
-            {
-                //throw exception or log that the item was not found
-            }
+            _context.Todos.Remove(todo);
+            await _context.SaveChangesAsync();
         }
         public async Task<IEnumerable<TodoItem>> GetAll()
         {

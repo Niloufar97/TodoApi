@@ -35,5 +35,10 @@ namespace Todo.Service.Implementations
             };
             await _todoRepository.InsertAsync(newTodo);
         }
+
+        public async Task DeleteTodo(int todoId)
+        {
+            await _todoRepository.Delete(todoId);
+        }
     }  
 }
