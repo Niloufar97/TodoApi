@@ -12,5 +12,6 @@ namespace Todo.Service.Implementations
         Task AddTodo(TodoItemRequestDto todoDto);
         Task DeleteTodo(int todoId);
         Task<IEnumerable<TodoItemListDto>> TodoItemList();
+        Task UpdateTodo(int id, TodoItemRequestDto todoDto);
     }
 }

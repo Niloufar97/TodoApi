@@ -40,5 +40,16 @@ namespace Todo.Service.Implementations
         {
             await _todoRepository.Delete(todoId);
         }
+
+        public async Task UpdateTodo(int id, TodoItemRequestDto todoDto) { 
+            var updatedTodo = new TodoItem
+            {
+                Title = todoDto.Title,
+                Description = todoDto.Description,
+                Status = todoDto.Status,
+                UserId = todoDto.UserId
+            };
+            await _todoRepository.Update(id, updatedTodo);
+        }
     }  
 }

@@ -14,7 +14,8 @@ namespace TodoApi.Controllers
             this._todoService = todoService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetTodos() {
+        public async Task<IActionResult> GetTodos()
+        {
             var allTodos = await _todoService.TodoItemList();
             return Ok(allTodos);
         }
@@ -37,5 +38,15 @@ namespace TodoApi.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTodo(int id, [FromBody] TodoItemRequestDto todoItemRequestDto)
+        {
+            if (todoItemRequestDto == null)
+            {
+                return BadRequest();
+            }
+            await _todoService.UpdateTodo(id, todoItemRequestDto);
+            return NoContent();
+        }
     }
 }
