@@ -50,7 +50,7 @@ namespace Todo.Service.Implementations
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
+                expires: DateTime.UtcNow.AddHours(24),
                 signingCredentials: creds
             );
 
