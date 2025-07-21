@@ -9,6 +9,8 @@ namespace Todo.Data.Repository
 {
     public interface IUserRepository
     {
+        Task AddUser(User user);
+        Task<User?> GetUserByUsername(string username);
         Task<User?> GetUserByUsernameAndPassword(string username, string password);
     }
 }

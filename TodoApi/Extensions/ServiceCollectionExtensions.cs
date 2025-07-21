@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Todo.Core.Domain;
 using Todo.Data.Repository;
 using Todo.Service.Implementations;
 
@@ -15,6 +17,8 @@ namespace Todo.API.Extensions
             services.AddScoped<ITodoService, TodoService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddScoped<IUserService, UserService>();
 
             // JWT Authentication
             var jwtKey = config["Jwt:Key"];
