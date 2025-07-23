@@ -9,9 +9,9 @@ namespace Todo.Service.Implementations
 {
     public interface ITodoService
     {
-        Task AddTodo(TodoItemRequestDto todoDto);
+        Task AddTodo(TodoItemRequestDto todoDto, int userId);
         Task DeleteTodo(int todoId);
-        Task<IEnumerable<TodoItemListDto>> TodoItemList();
-        Task UpdateTodo(int id, TodoItemRequestDto todoDto);
+        Task<IEnumerable<TodoItemListDto>> TodoItemList(int userId);
+        Task<bool> UpdateTodo(int id, TodoItemRequestDto todoDto,int userId);
     }
 }

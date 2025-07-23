@@ -11,8 +11,8 @@ namespace Todo.Service.Implementations
             this._todoRepository = todoRepository;
         }
 
-        public async Task<IEnumerable<TodoItemListDto>> TodoItemList() {
-            var todos = await _todoRepository.GetAll();
+        public async Task<IEnumerable<TodoItemListDto>> TodoItemList(int userId) {
+            var todos = await _todoRepository.GetUsersAllTodos(userId);
             var todosToReturn = todos.Select(Todo => new TodoItemListDto
             {
                 Title = Todo.Title,
@@ -24,14 +24,14 @@ namespace Todo.Service.Implementations
             return todosToReturn;
         }
 
-        public async Task AddTodo(TodoItemRequestDto todoDto)
+        public async Task AddTodo(TodoItemRequestDto todoDto,int userId)
         {
             var newTodo = new TodoItem
             {
                 Title = todoDto.Title,
                 Description = todoDto.Description,
                 Status = todoDto.Status,
-                UserId = todoDto.UserId
+                UserId = userId
             };
             await _todoRepository.InsertAsync(newTodo);
         }
@@ -41,15 +41,17 @@ namespace Todo.Service.Implementations
             await _todoRepository.Delete(todoId);
         }
 
-        public async Task UpdateTodo(int id, TodoItemRequestDto todoDto) { 
-            var updatedTodo = new TodoItem
-            {
-                Title = todoDto.Title,
-                Description = todoDto.Description,
-                Status = todoDto.Status,
-                UserId = todoDto.UserId
-            };
-            await _todoRepository.Update(id, updatedTodo);
+        public async Task<bool> UpdateTodo(int id, TodoItemRequestDto todoDto,int userId) {
+            var existingTodo = await _todoRepository.GetTodoById(id);
+            // Check if the todo item exists and belongs to the user
+            if (existingTodo == null || existingTodo.UserId != userId)
+                return false;
+
+            existingTodo.Title = todoDto.Title;
+            existingTodo.Description = todoDto.Description;
+            existingTodo.Status = todoDto.Status;
+            await _todoRepository.Update(id, existingTodo);
+            return true;
         }
     }  
 }

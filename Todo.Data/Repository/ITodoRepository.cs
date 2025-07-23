@@ -7,7 +7,7 @@ namespace Todo.Data.Repository
         public Task InsertAsync(TodoItem todo);
         public Task Update(int id, TodoItem todo);
         public Task Delete(int todoId);
-        public Task<IEnumerable<TodoItem>> GetAll();
+        public Task<IEnumerable<TodoItem>> GetUsersAllTodos(int userId);
         public Task<TodoItem> GetTodoById(int todoId);
     }
 }

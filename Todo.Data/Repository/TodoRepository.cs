@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Todo.Core.Domain;
 
 namespace Todo.Data.Repository
@@ -47,9 +48,9 @@ namespace Todo.Data.Repository
         }
 
         //get all todos
-        public async Task<IEnumerable<TodoItem>> GetAll()
+        public async Task<IEnumerable<TodoItem>> GetUsersAllTodos(int userId)
         {
-            return await _context.Todos.ToListAsync(); ;
+            return await _context.Todos.Where(t=>t.UserId == userId).ToListAsync(); ;
         }
 
         //get to do by Id

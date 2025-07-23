@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Todo.Service.Dto;
 using Todo.Service.Implementations;
 
@@ -6,6 +8,7 @@ namespace TodoApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TodoController : ControllerBase
 {
     private readonly ITodoService _todoService;
@@ -16,7 +19,8 @@ public class TodoController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetTodos()
     {
-        var allTodos = await _todoService.TodoItemList();
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var allTodos = await _todoService.TodoItemList(userId);
         return Ok(allTodos);
     }
 
@@ -27,7 +31,8 @@ public class TodoController : ControllerBase
         {
             return BadRequest();
         }
-        await _todoService.AddTodo(todoItemRequestDto);
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        await _todoService.AddTodo(todoItemRequestDto, userId);
         return Created();
     }
 
@@ -45,7 +50,13 @@ public class TodoController : ControllerBase
         {
             return BadRequest();
         }
-        await _todoService.UpdateTodo(id, todoItemRequestDto);
+        int userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+        var success = await _todoService.UpdateTodo(id, todoItemRequestDto, userId);
+        if (!success)
+        {
+            return NotFound();
+        }
         return NoContent();
+
     }
 }
